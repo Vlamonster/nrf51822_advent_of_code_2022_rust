@@ -1,0 +1,52 @@
+cargo-features = ["per-package-target"]
+
+[package]
+name = "nrf51822_blinky_rust"
+version = "0.1.0"
+edition = "2021"
+forced-target = "thumbv6m-none-eabi"
+
+[dependencies]
+cortex-m = "0.7.3"
+cortex-m-rt = "0.7.0"
+alloc-cortex-m = "0.4.4"
+nrf51-hal = "0.16.0"
+rtt-target = { version = "0.3.1", features = ["cortex-m"] }
+lzss = { version = "0.8.2", features = ["alloc"], default-features = false }
+
+[build-dependencies]
+lzss = "0.8.2"
+
+[dependencies.embedded-hal]
+version = "0.2.3"
+features = ["unproven"]
+
+# Shrink packages to more manageable size for debugging.
+[profile.dev.package.'*']
+opt-level = 's'
+
+[profile.dev]
+strip = false
+# Required for gdb because inlines aren't implemented correctly or something.
+opt-level = 0
+# Required for gdb because of a rust-lang bug or something.
+lto = false
+codegen-units = 1
+
+# By default, Cargo build builds the Rust binary in debug mode. Debug mode disables many optimizations,
+# which helps debuggers (and IDEs that run them) provide a better debugging experience. Debug binaries
+# can be 30% or more larger than release binaries. To minimize binary size, build in release mode.
+[profile.release]
+# By default on Linux and macOS, symbol information is included in the compiled .elf file. This information
+# is not needed to properly execute the binary. Cargo can be configured to automatically strip binaries. Note
+# that symbol information is not flashed using Cargo-Embed, so this is purely to make the binary size smaller.
+strip = true
+# Cargo defaults its optimization level to 3 for release builds, which optimizes the binary for speed.
+# To instruct Cargo to optimize for minimal binary size, use the z optimization level.
+opt-level = 'z'
+# By default, Cargo instructs compilation units to be compiled and optimized in isolation. LTO instructs
+# the linker to optimize at the link stage. This can, for example, remove dead code and often times reduces binary size.
+lto = true
+# By default, Cargo specifies 16 parallel codegen units for release builds. This improves compile times,
+# but prevents some optimizations. Set this to 1 to allow for maximum size reduction optimizations.
+codegen-units = 1
