@@ -1,7 +1,7 @@
 # Goal
 
 Get all 25 solutions for AoC 2022 using an nrf51822xxAC. The rules are simple, all input files should be on the device
-and parsing the data beforehand is *not* allowed (as long as the full input is stored lossless than it's fine). This
+and parsing the data beforehand is *not* allowed (the full input must be stored lossless). This
 will be a challenge for sure.
 
 <details><summary>Completed days.</summary>
