@@ -5,7 +5,7 @@ use rtt_target::rprintln;
 
 pub fn p1(input: Vec<u8>) {
     rprintln!(
-        "{}",
+        "d01a: {}",
         input
             .into_iter()
             .map(|d| d as char)
@@ -23,7 +23,7 @@ pub fn p1(input: Vec<u8>) {
 
 pub fn p2(input: Vec<u8>) {
     rprintln!(
-        "{}",
+        "d01b: {}",
         input
             .into_iter()
             .map(|d| d as char)
