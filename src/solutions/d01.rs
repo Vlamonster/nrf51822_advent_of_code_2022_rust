@@ -1,33 +1,42 @@
+use alloc::string::String;
 use alloc::vec::Vec;
+use itertools::Itertools;
 use rtt_target::rprintln;
 
 pub fn p1(input: Vec<u8>) {
-    let mut sums = Vec::new();
-    let mut newline = false;
-    let mut sum = 0;
-    let mut sub = 0;
-    for d in input.into_iter() {
-        match (d, newline) {
-            (b'\n', true) => {
-                sums.push(sum);
-                sum = 0;
-                sub = 0;
-                newline = false;
-            }
-            (b'\n', _) => {
-                sum += sub;
-                sub = 0;
-                newline = true;
-            }
-            (d, _) => {
-                sub = sub * 10 + (d - b'0') as u32;
-                newline = false;
-            }
-        }
-    }
-    rprintln!("{}", sums.into_iter().max().unwrap());
+    rprintln!(
+        "{}",
+        input
+            .into_iter()
+            .map(|d| d as char)
+            .collect::<String>()
+            .split("\n\n")
+            .map(|elf| {
+                elf.lines()
+                    .map(|calories| calories.parse::<u32>().unwrap())
+                    .sum::<u32>()
+            })
+            .max()
+            .unwrap()
+    );
 }
 
-pub fn p2(input: &[u8]) {
-    rprintln!("not yet implemented p2");
+pub fn p2(input: Vec<u8>) {
+    rprintln!(
+        "{}",
+        input
+            .into_iter()
+            .map(|d| d as char)
+            .collect::<String>()
+            .split("\n\n")
+            .map(|elf| {
+                elf.lines()
+                    .map(|calories| calories.parse::<u32>().unwrap())
+                    .sum::<u32>()
+            })
+            .sorted()
+            .rev()
+            .take(3)
+            .sum::<u32>()
+    );
 }

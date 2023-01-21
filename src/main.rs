@@ -66,19 +66,24 @@ fn alloc_error(layout: Layout) -> ! {
     }
 }
 
+fn read_file(n: usize) -> Vec<u8> {
+    let mut output = vec![0; 27000];
+    let result =
+        MyLzss::decompress(SliceReader::new(INPUTS[n]), SliceWriter::new(&mut output)).unwrap();
+    drop(output);
+    let mut output = vec![0; result];
+    MyLzss::decompress(SliceReader::new(INPUTS[n]), SliceWriter::new(&mut output)).unwrap();
+    output
+}
+
 #[cortex_m_rt::entry]
 fn main() -> ! {
     rtt_init_print!();
 
     unsafe { ALLOCATOR.init(cortex_m_rt::heap_start() as usize, HEAP_SIZE) }
-    let mut output = vec![0; 27000];
-    let result =
-        MyLzss::decompress(SliceReader::new(INPUTS[0]), SliceWriter::new(&mut output)).unwrap();
-    drop(output);
-    let mut output = vec![0; result];
-    MyLzss::decompress(SliceReader::new(INPUTS[0]), SliceWriter::new(&mut output)).unwrap();
-    d01::p1(output);
-    // d01::p2(&output);
+
+    d01::p1(read_file(0));
+    d01::p2(read_file(0));
 
     loop {
         rprintln!("beep");

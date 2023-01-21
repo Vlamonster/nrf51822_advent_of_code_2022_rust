@@ -13,6 +13,7 @@ alloc-cortex-m = "0.4.4"
 nrf51-hal = "0.16.0"
 rtt-target = { version = "0.3.1", features = ["cortex-m"] }
 lzss = { version = "0.8.2", features = ["alloc"], default-features = false }
+itertools = { version = "0.10.5", features = ["use_alloc"], default-features = false }
 
 [build-dependencies]
 lzss = "0.8.2"
