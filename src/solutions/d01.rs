@@ -3,7 +3,7 @@ use alloc::vec;
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
-pub fn p1(input: &[u8]) {
+pub fn p1(input: Vec<u8>) {
     let mut sums = Vec::new();
     let mut newline = false;
     let mut sum = 0;

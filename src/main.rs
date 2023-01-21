@@ -7,7 +7,7 @@ mod solutions;
 extern crate alloc;
 
 use crate::solutions::d01;
-use alloc::vec;
+use alloc::{format, vec};
 use alloc::vec::Vec;
 use alloc_cortex_m::CortexMHeap;
 use core::alloc::Layout;
@@ -15,6 +15,8 @@ use cortex_m::asm::delay;
 use lzss::{Lzss, SliceReader, SliceWriter};
 use nrf51_hal as hal;
 use rtt_target::{rprintln, rtt_init_print};
+
+type MyLzss = Lzss<10, 4, 0x20, { 1 << 10 }, { 2 << 10 }>;
 
 #[global_allocator]
 static ALLOCATOR: CortexMHeap = CortexMHeap::empty();
@@ -40,18 +42,20 @@ fn alloc_error(layout: Layout) -> ! {
 fn main() -> ! {
     rtt_init_print!();
 
-    // initialize the allocator
     unsafe { ALLOCATOR.init(cortex_m_rt::heap_start() as usize, HEAP_SIZE) }
-
-    type MyLzss = Lzss<10, 4, 0x20, { 1 << 10 }, { 2 << 10 }>;
-
-    let mut output = [0; 27000];
+    let mut output = vec![0; 27000];
     let result = MyLzss::decompress(
         SliceReader::new(include_bytes!("../inputs/d01c.txt")),
         SliceWriter::new(&mut output),
-    );
-    d01::p1(&output);
-    d01::p2(&output);
+    ).unwrap();
+    drop(output);
+    let mut output = vec![0; result];
+    MyLzss::decompress(
+        SliceReader::new(include_bytes!("../inputs/d01c.txt")),
+        SliceWriter::new(&mut output),
+    ).unwrap();
+    d01::p1(output);
+    // d01::p2(&output);
 
     loop {
         rprintln!("beep");
