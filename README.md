@@ -12,7 +12,7 @@ will be a challenge for sure.
 - [x] day 4
 - [x] day 5
 - [x] day 6
-- [ ] day 7
+- [x] day 7
 - [ ] day 8
 - [ ] day 9
 - [ ] day 10

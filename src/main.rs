@@ -6,7 +6,7 @@ mod solutions;
 
 extern crate alloc;
 
-use crate::solutions::{d01, d02, d03, d04, d05, d06};
+use crate::solutions::{d01, d02, d03, d04, d05, d06, d07};
 use alloc::vec;
 use alloc::vec::Vec;
 use alloc_cortex_m::CortexMHeap;
@@ -94,6 +94,8 @@ fn main() -> ! {
     d05::p2(read_file(4));
     d06::p1(read_file(5));
     d06::p2(read_file(5));
+    d07::p1(read_file(6));
+    d07::p2(read_file(6));
 
     loop {
         rprintln!("beep");
