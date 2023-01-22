@@ -1,8 +1,8 @@
 use alloc::collections::VecDeque;
 use alloc::vec::Vec;
+use cortex_m_semihosting::hprintln;
 use itertools::FoldWhile::{Continue, Done};
 use itertools::Itertools;
-use cortex_m_semihosting::hprintln;
 
 pub fn p1(input: Vec<u8>) {
     hprintln!(

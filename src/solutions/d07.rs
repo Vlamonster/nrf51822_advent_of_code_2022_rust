@@ -2,8 +2,8 @@ use alloc::collections::BTreeMap;
 use alloc::string::String;
 use alloc::vec;
 use alloc::vec::Vec;
-use itertools::Itertools;
 use cortex_m_semihosting::hprintln;
+use itertools::Itertools;
 
 pub fn p1(input: Vec<u8>) {
     let contents = input.into_iter().map(|d| d as char).collect::<String>();

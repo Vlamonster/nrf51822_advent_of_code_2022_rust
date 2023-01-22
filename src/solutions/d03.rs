@@ -1,7 +1,7 @@
 use alloc::string::String;
 use alloc::vec::Vec;
-use itertools::Itertools;
 use cortex_m_semihosting::hprintln;
+use itertools::Itertools;
 
 pub fn p1(input: Vec<u8>) {
     hprintln!(
