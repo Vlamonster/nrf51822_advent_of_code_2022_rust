@@ -3,4 +3,4 @@ runner = "qemu-system-arm -cpu cortex-m3 -machine lm3s6965evb -nographic -semiho
 rustflags = ["-C", "link-arg=-Tlink.x"]
 
 [build]
-target = ["thumbv6m-none-eabi"]
+target = "thumbv6m-none-eabi"
