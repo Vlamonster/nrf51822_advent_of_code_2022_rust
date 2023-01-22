@@ -12,7 +12,8 @@ use alloc::vec::Vec;
 use alloc_cortex_m::CortexMHeap;
 use core::alloc::Layout;
 use cortex_m::asm::delay;
-use cortex_m_semihosting::hprintln;
+use cortex_m_semihosting::{debug, hprintln};
+use cortex_m_semihosting::debug::EXIT_SUCCESS;
 use lzss::{Lzss, SliceReader, SliceWriter};
 
 type MyLzss = Lzss<10, 4, 0x20, { 1 << 10 }, { 2 << 10 }>;
@@ -95,6 +96,8 @@ fn main() -> ! {
     d07::p2(read_file(6));
     d08::p1(read_file(7));
     d08::p2(read_file(7));
+
+    debug::exit(EXIT_SUCCESS);
 
     loop {}
 }
