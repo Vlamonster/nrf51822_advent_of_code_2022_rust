@@ -2,7 +2,7 @@ use alloc::string::String;
 use alloc::vec;
 use alloc::vec::Vec;
 use itertools::Itertools;
-use rtt_target::rprintln;
+use cortex_m_semihosting::hprintln;
 
 pub fn p1(input: Vec<u8>) {
     let contents = input.into_iter().map(|d| d as char).collect::<String>();
@@ -40,7 +40,7 @@ pub fn p1(input: Vec<u8>) {
         }
     }
 
-    rprintln!(
+    hprintln!(
         "d05a: {}",
         stacks
             .iter()
@@ -88,7 +88,7 @@ pub fn p2(input: Vec<u8>) {
         }
     }
 
-    rprintln!(
+    hprintln!(
         "d05b: {}",
         stacks
             .iter()

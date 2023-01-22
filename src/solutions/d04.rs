@@ -1,9 +1,9 @@
 use alloc::string::String;
 use alloc::vec::Vec;
-use rtt_target::rprintln;
+use cortex_m_semihosting::hprintln;
 
 pub fn p1(input: Vec<u8>) {
-    rprintln!(
+    hprintln!(
         "d04a: {}",
         input
             .into_iter()
@@ -25,7 +25,7 @@ pub fn p1(input: Vec<u8>) {
 }
 
 pub fn p2(input: Vec<u8>) {
-    rprintln!(
+    hprintln!(
         "d04b: {}",
         input
             .into_iter()

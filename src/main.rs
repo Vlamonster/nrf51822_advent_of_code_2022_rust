@@ -12,9 +12,8 @@ use alloc::vec::Vec;
 use alloc_cortex_m::CortexMHeap;
 use core::alloc::Layout;
 use cortex_m::asm::delay;
+use cortex_m_semihosting::hprintln;
 use lzss::{Lzss, SliceReader, SliceWriter};
-use nrf51_hal as hal;
-use rtt_target::{rprintln, rtt_init_print};
 
 type MyLzss = Lzss<10, 4, 0x20, { 1 << 10 }, { 2 << 10 }>;
 
@@ -53,7 +52,7 @@ const HEAP_SIZE: usize = 27000; // in bytes
 #[panic_handler]
 fn panic(_: &core::panic::PanicInfo) -> ! {
     loop {
-        rprintln!("panic");
+        hprintln!("panic");
         cortex_m::asm::bkpt();
     }
 }
@@ -61,7 +60,7 @@ fn panic(_: &core::panic::PanicInfo) -> ! {
 #[alloc_error_handler]
 fn alloc_error(layout: Layout) -> ! {
     loop {
-        rprintln!("alloc error: {:?}", layout);
+        hprintln!("alloc error: {:?}", layout);
         cortex_m::asm::bkpt();
     }
 }
@@ -78,8 +77,6 @@ fn read_file(n: usize) -> Vec<u8> {
 
 #[cortex_m_rt::entry]
 fn main() -> ! {
-    rtt_init_print!();
-
     unsafe { ALLOCATOR.init(cortex_m_rt::heap_start() as usize, HEAP_SIZE) }
 
     d01::p1(read_file(0));
@@ -99,8 +96,5 @@ fn main() -> ! {
     d08::p1(read_file(7));
     d08::p2(read_file(7));
 
-    loop {
-        rprintln!("beep");
-        delay(16_000_000);
-    }
+    loop {}
 }

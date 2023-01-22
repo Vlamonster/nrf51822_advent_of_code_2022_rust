@@ -3,7 +3,7 @@ use alloc::string::String;
 use alloc::vec;
 use alloc::vec::Vec;
 use itertools::Itertools;
-use rtt_target::rprintln;
+use cortex_m_semihosting::hprintln;
 
 pub fn p1(input: Vec<u8>) {
     let contents = input.into_iter().map(|d| d as char).collect::<String>();
@@ -34,7 +34,7 @@ pub fn p1(input: Vec<u8>) {
             _ => unreachable!(),
         }
     }
-    rprintln!(
+    hprintln!(
         "d07a: {}",
         directories
             .values()
@@ -80,7 +80,7 @@ pub fn p2(input: Vec<u8>) {
         }
     }
     let needed_space = directories.get(&root).unwrap() - 40000000;
-    rprintln!(
+    hprintln!(
         "d07b: {}",
         directories
             .values()

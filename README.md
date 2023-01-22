@@ -79,6 +79,9 @@ cargo size --release
 
 # Get detailed analysis of binary size (only for dev profile).
 cargo bloat --release
+
+# Run in QEMU
+cargo run --release --target thumbv7m-none-eabi
 ```
 
 # Random

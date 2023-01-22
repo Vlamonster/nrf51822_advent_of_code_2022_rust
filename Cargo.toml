@@ -1,17 +1,13 @@
-cargo-features = ["per-package-target"]
-
 [package]
 name = "nrf51822_advent_of_code_2022_rust"
 version = "0.1.0"
 edition = "2021"
-forced-target = "thumbv6m-none-eabi"
 
 [dependencies]
 cortex-m = "0.7.3"
 cortex-m-rt = "0.7.0"
+cortex-m-semihosting = "0.5.0"
 alloc-cortex-m = "0.4.4"
-nrf51-hal = "0.16.0"
-rtt-target = { version = "0.3.1", features = ["cortex-m"] }
 lzss = { version = "0.8.2", features = ["alloc"], default-features = false }
 itertools = { version = "0.10.5", features = ["use_alloc"], default-features = false }
 

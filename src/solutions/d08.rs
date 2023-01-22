@@ -1,5 +1,5 @@
 use alloc::vec::Vec;
-use rtt_target::rprintln;
+use cortex_m_semihosting::hprintln;
 
 pub fn p1(input: Vec<u8>) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
@@ -31,7 +31,7 @@ pub fn p1(input: Vec<u8>) {
         }
     }
 
-    rprintln!("d08a: {}", visible);
+    hprintln!("d08a: {}", visible);
 }
 
 pub fn p2(input: Vec<u8>) {
@@ -64,5 +64,5 @@ pub fn p2(input: Vec<u8>) {
         }
     }
 
-    rprintln!("d08b: {}", best_score);
+    hprintln!("d08b: {}", best_score);
 }

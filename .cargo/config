@@ -1,2 +1,6 @@
-[target.'cfg(all(target_arch = "arm", target_os = "none"))']
+[target.thumbv6m-none-eabi]
+runner = "qemu-system-arm -cpu cortex-m3 -machine lm3s6965evb -nographic -semihosting-config enable=on,target=native -d guest_errors -kernel"
+
+[target.thumbv7m-none-eabi]
+runner = "qemu-system-arm -cpu cortex-m3 -machine lm3s6965evb -nographic -semihosting-config enable=on,target=native -d guest_errors -kernel"
 rustflags = ["-C", "link-arg=-Tlink.x"]
