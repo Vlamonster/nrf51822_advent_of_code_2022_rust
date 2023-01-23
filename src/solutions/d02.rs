@@ -60,5 +60,5 @@ pub fn p2(input: Vec<u8>) {
             _ => {}
         }
     }
-    rprintln!("d0ba: {}", total_score);
+    rprintln!("d02b: {}", total_score);
 }
