@@ -1,11 +1,5 @@
-use alloc::collections::VecDeque;
 use alloc::vec::Vec;
-use itertools::FoldWhile::{Continue, Done};
-use itertools::Itertools;
 use rtt_target::rprintln;
-use nrf51_hal::pac::Peripherals;
-use nrf51_hal::pac::timer0::mode::MODE_A;
-use nrf51_hal::pac::timer2::bitmode::BITMODE_A;
 
 /// Measured speed: 6232us.
 pub fn p1(input: Vec<u8>) {
