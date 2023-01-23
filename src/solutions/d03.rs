@@ -1,6 +1,4 @@
-use alloc::string::String;
 use alloc::vec::Vec;
-use itertools::Itertools;
 use rtt_target::rprintln;
 
 /// Measured speed: 22364us.
@@ -44,26 +42,46 @@ pub fn p1(input: Vec<u8>) {
     rprintln!("d03a: {}", total);
 }
 
+/// Measured speed: 21813us.
 pub fn p2(input: Vec<u8>) {
-    rprintln!(
-        "d03b: {}",
-        input
-            .into_iter()
-            .map(|d| d as char)
-            .collect::<String>()
-            .lines()
-            .tuples::<(_, _, _)>()
-            .map(|(elf_1, elf_2, elf_3)| {
-                elf_1
-                    .chars()
-                    .find(|&item| elf_2.contains(item) && elf_3.contains(item))
-                    .unwrap()
-            })
-            .map(|badge| match badge {
-                'a'..='z' => badge as usize - b'a' as usize + 1,
-                'A'..='Z' => badge as usize - b'A' as usize + 27,
-                _ => unreachable!(),
-            })
-            .sum::<usize>()
-    );
+    let mut total = 0;
+    for [elf1, elf2, elf3] in input.split(|&byte| byte == b'\n').array_chunks() {
+        let mut elf1_lowercase = 0u32;
+        let mut elf1_uppercase = 0u32;
+        let mut elf2_lowercase = 0u32;
+        let mut elf2_uppercase = 0u32;
+        let mut elf3_lowercase = 0u32;
+        let mut elf3_uppercase = 0u32;
+
+        for item in elf1 {
+            if item.is_ascii_lowercase() {
+                elf1_lowercase |= 2 << (item - b'a');
+            } else {
+                elf1_uppercase |= 2 << (item - b'A');
+            }
+        }
+
+        for item in elf2 {
+            if item.is_ascii_lowercase() {
+                elf2_lowercase |= 2 << (item - b'a');
+            } else {
+                elf2_uppercase |= 2 << (item - b'A');
+            }
+        }
+
+        for item in elf3 {
+            if item.is_ascii_lowercase() {
+                elf3_lowercase |= 2 << (item - b'a');
+            } else {
+                elf3_uppercase |= 2 << (item - b'A');
+            }
+        }
+
+        if elf1_lowercase & elf2_lowercase & elf3_lowercase != 0 {
+            total += (elf1_lowercase & elf2_lowercase & elf3_lowercase).trailing_zeros();
+        } else if elf1_uppercase & elf2_uppercase & elf3_uppercase != 0 {
+            total += 26 + (elf1_uppercase & elf2_uppercase & elf3_uppercase).trailing_zeros();
+        }
+    }
+    rprintln!("d03b: {}", total);
 }
