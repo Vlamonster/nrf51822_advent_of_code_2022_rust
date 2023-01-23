@@ -14,6 +14,9 @@ use core::alloc::Layout;
 use cortex_m::asm::delay;
 use lzss::{Lzss, SliceReader, SliceWriter};
 use nrf51_hal as hal;
+use nrf51_hal::pac::Peripherals;
+use nrf51_hal::pac::timer0::mode::MODE_A;
+use nrf51_hal::pac::timer2::bitmode::BITMODE_A;
 use rtt_target::{rprintln, rtt_init_print};
 
 type MyLzss = Lzss<10, 4, 0x20, { 1 << 10 }, { 2 << 10 }>;
@@ -82,6 +85,13 @@ fn main() -> ! {
 
     unsafe { ALLOCATOR.init(cortex_m_rt::heap_start() as usize, HEAP_SIZE) }
 
+    let tim0 = Peripherals::take().unwrap().TIMER0;
+    tim0.mode.write(|w| w.mode().variant(MODE_A::TIMER));
+    tim0.bitmode.write(|w| w.bitmode().variant(BITMODE_A::_32BIT));
+    tim0.tasks_start.write(|w| unsafe { w.bits(1) });
+
+    rprintln!("Starting computation:");
+
     d01::p1(read_file(0));
     d01::p2(read_file(0));
     d02::p1(read_file(1));
@@ -98,6 +108,9 @@ fn main() -> ! {
     d07::p2(read_file(6));
     d08::p1(read_file(7));
     d08::p2(read_file(7));
+
+    tim0.tasks_capture[0].write(|w| unsafe { w.bits(1) });
+    rprintln!("computation took {:?}us",tim0.cc[0].read().bits());
 
     loop {
         rprintln!("beep");
