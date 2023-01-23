@@ -3,26 +3,45 @@ use alloc::vec::Vec;
 use itertools::Itertools;
 use rtt_target::rprintln;
 
-/// Measured speed: 43428us.
+/// Measured speed: 22364us.
 pub fn p1(input: Vec<u8>) {
-    let mut sum = 0;
-    for rucksack in input.split(|&byte| byte == b'\n') {
-        let first_half = &rucksack[0..rucksack.len() / 2];
-        let second_half = &rucksack[rucksack.len() / 2..rucksack.len()];
+    let mut total = 0;
+    for backpack in input.split(|&byte| byte == b'\n') {
+        // Split the backpack string into the first and second half
+        let first_half = &backpack[0..backpack.len() / 2];
+        let second_half = &backpack[backpack.len() / 2..backpack.len()];
+
+        // Create variables to store the available lowercase and uppercase letters in each half
+        let mut first_half_lowercase = 0u32;
+        let mut first_half_uppercase = 0u32;
+        let mut second_half_lowercase = 0u32;
+        let mut second_half_uppercase = 0u32;
+
+        // Iterate through each character in the first half and mark it as available
         for item in first_half {
-            if second_half.contains(item) {
-                // Check if the byte is a lowercase or uppercase letter
-                if *item >= b'a' {
-                    sum += (item - (b'a' - 1)) as u32;
-                } else {
-                    sum += (item - (b'A' - 27)) as u32;
-                }
-                // Break out of the loop, as we only need the first matching byte
-                break;
+            if item.is_ascii_lowercase() {
+                first_half_lowercase |= 2 << (item - b'a');
+            } else {
+                first_half_uppercase |= 2 << (item - b'A');
             }
         }
+
+        // Iterate through each character in the second half and mark it as available
+        for item in second_half {
+            if item.is_ascii_lowercase() {
+                second_half_lowercase |= 2 << (item - b'a');
+            } else {
+                second_half_uppercase |= 2 << (item - b'A');
+            }
+        }
+
+        if second_half_lowercase & first_half_lowercase != 0 {
+            total += (second_half_lowercase & first_half_lowercase).trailing_zeros();
+        } else if second_half_uppercase & first_half_uppercase != 0 {
+            total += 26 + (second_half_uppercase & first_half_uppercase).trailing_zeros();
+        }
     }
-    rprintln!("d03a: {}", sum);
+    rprintln!("d03a: {}", total);
 }
 
 pub fn p2(input: Vec<u8>) {
