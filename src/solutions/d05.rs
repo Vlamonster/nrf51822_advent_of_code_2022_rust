@@ -1,98 +1,115 @@
+use alloc::collections::VecDeque;
 use alloc::string::String;
-use alloc::vec;
 use alloc::vec::Vec;
-use itertools::Itertools;
 use rtt_target::rprintln;
 
+const VD: VecDeque<u8> = VecDeque::new();
+
+/// Measured speed: 41741us.
 pub fn p1(input: Vec<u8>) {
-    let contents = input.into_iter().map(|d| d as char).collect::<String>();
-    let (stacks_str, instructions) = contents.split_once("\n\n").unwrap();
-
-    let num_stacks = stacks_str
-        .lines()
-        .last()
-        .unwrap()
-        .split_whitespace()
-        .last()
-        .unwrap()
-        .parse::<usize>()
-        .unwrap();
-
-    let mut stacks = vec![vec![]; num_stacks];
-    for layer in stacks_str.lines().rev().skip(1) {
-        for (index, label) in layer.chars().skip(1).step_by(4).enumerate() {
-            if label.is_alphabetic() {
-                stacks[index].push(label);
+    let mut reading_stacks = true;
+    let mut stacks = [VD; 9];
+    for line in input.split(|&byte| byte == b'\n') {
+        if reading_stacks {
+            let mut index = 0;
+            for &byte in line {
+                match byte {
+                    b'9' => reading_stacks = false,
+                    _ => {
+                        if byte.is_ascii_uppercase() {
+                            stacks[index / 4].push_front(byte);
+                        }
+                        index += 1;
+                    }
+                }
+            }
+        } else {
+            let mut in_num = false;
+            let mut moves = 0;
+            let mut from = 0;
+            let mut to = 0;
+            for &byte in line {
+                match byte {
+                    b'0'..=b'9' => {
+                        if moves == 0 || in_num {
+                            moves = moves * 10 + (byte - b'0') as usize;
+                            in_num = true;
+                        } else if from == 0 {
+                            from = (byte - b'0') as usize;
+                        } else {
+                            to = (byte - b'0') as usize;
+                        }
+                    }
+                    _ => in_num = false,
+                }
+            }
+            for _ in 0..moves {
+                let moved_crate = stacks[from - 1].pop_back().unwrap();
+                stacks[to - 1].push_back(moved_crate);
             }
         }
     }
-
-    for instruction in instructions.lines() {
-        let (moves, from, to) = instruction
-            .split_whitespace()
-            .filter_map(|word| word.parse::<usize>().ok())
-            .collect_tuple()
-            .unwrap();
-
-        for _ in 0..moves {
-            let moved_crate = stacks[from - 1].pop().unwrap();
-            stacks[to - 1].push(moved_crate);
-        }
-    }
-
     rprintln!(
         "d05a: {}",
         stacks
-            .iter()
-            .map(|stack| stack.last().unwrap())
+            .into_iter()
+            .map(|stack| *stack.back().unwrap() as char)
             .collect::<String>()
-    )
+    );
 }
 
+/// Measured speed: 52429us.
 pub fn p2(input: Vec<u8>) {
-    let contents = input.into_iter().map(|d| d as char).collect::<String>();
-    let (stacks_str, instructions) = contents.split_once("\n\n").unwrap();
-
-    let num_stacks = stacks_str
-        .lines()
-        .last()
-        .unwrap()
-        .split_whitespace()
-        .last()
-        .unwrap()
-        .parse::<usize>()
-        .unwrap();
-
-    let mut stacks = vec![vec![]; num_stacks];
-    for layer in stacks_str.lines().rev().skip(1) {
-        for (index, label) in layer.chars().skip(1).step_by(4).enumerate() {
-            if label.is_alphabetic() {
-                stacks[index].push(label);
+    let mut reading_stacks = true;
+    let mut stacks = [VD; 9];
+    let mut moved_crates = Vec::new();
+    for line in input.split(|&byte| byte == b'\n') {
+        if reading_stacks {
+            let mut index = 0;
+            for &byte in line {
+                match byte {
+                    b'9' => reading_stacks = false,
+                    _ => {
+                        if byte.is_ascii_uppercase() {
+                            stacks[index / 4].push_front(byte);
+                        }
+                        index += 1;
+                    }
+                }
+            }
+        } else {
+            let mut in_num = false;
+            let mut moves = 0;
+            let mut from = 0;
+            let mut to = 0;
+            for &byte in line {
+                match byte {
+                    b'0'..=b'9' => {
+                        if moves == 0 || in_num {
+                            moves = moves * 10 + (byte - b'0') as usize;
+                            in_num = true;
+                        } else if from == 0 {
+                            from = (byte - b'0') as usize;
+                        } else {
+                            to = (byte - b'0') as usize;
+                        }
+                    }
+                    _ => in_num = false,
+                }
+            }
+            for _ in 0..moves {
+                moved_crates.push(stacks[from - 1].pop_back().unwrap());
+            }
+            for _ in 0..moves {
+                stacks[to - 1].push_back(moved_crates.pop().unwrap());
             }
         }
     }
-
-    let mut moved_crates = Vec::new();
-    for instruction in instructions.lines() {
-        let (moves, from, to) = instruction
-            .split_whitespace()
-            .filter_map(|word| word.parse::<usize>().ok())
-            .collect_tuple()
-            .unwrap();
-
-        for _ in 0..moves {
-            moved_crates.push(stacks[from - 1].pop().unwrap());
-        }
-        for _ in 0..moves {
-            stacks[to - 1].push(moved_crates.pop().unwrap());
-        }
-    }
-
     rprintln!(
         "d05b: {}",
         stacks
-            .iter()
-            .map(|stack| stack.last().unwrap())
+            .into_iter()
+            .map(|stack| *stack.back().unwrap() as char)
             .collect::<String>()
-    )
+    );
 }
