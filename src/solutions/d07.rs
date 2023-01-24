@@ -77,11 +77,11 @@ pub fn p2(input: Vec<u8>) {
             directories[last] += directories[index];
         }
     }
-    let needed_space = directories.get(&root).unwrap() - 40000000;
+    let needed_space = directories[0] - 40000000;
     rprintln!(
         "d07b: {}",
         directories
-            .values()
+            .iter()
             .filter(|&&size| size >= needed_space)
             .min()
             .unwrap()
