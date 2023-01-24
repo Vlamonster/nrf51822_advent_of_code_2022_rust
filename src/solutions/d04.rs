@@ -1,7 +1,7 @@
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
-/// Measured speed: 20110us.
+/// Measured speed: 20453us.
 pub fn p1(input: Vec<u8>) {
     let (mut a, mut b, mut c, mut d) = (0, 0, 0, 0);
     let mut counter = 0;
@@ -30,7 +30,7 @@ pub fn p1(input: Vec<u8>) {
     rprintln!("d04a: {}", total);
 }
 
-/// Measured speed: 20433us
+/// Measured speed: 19809us
 pub fn p2(input: Vec<u8>) {
     let (mut a, mut b, mut c, mut d) = (0, 0, 0, 0);
     let mut counter = 0;

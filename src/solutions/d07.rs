@@ -2,7 +2,7 @@ use alloc::vec;
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
-/// Speed measured: 27455us.
+/// Speed measured: 17689us.
 pub fn p1(input: Vec<u8>) {
     let mut directories = vec![0];
     let mut path = vec![0];
@@ -45,7 +45,7 @@ pub fn p1(input: Vec<u8>) {
     );
 }
 
-/// Measured speed: 28722us.
+/// Measured speed: 17873us.
 pub fn p2(input: Vec<u8>) {
     let mut directories = vec![0];
     let mut path = vec![0];

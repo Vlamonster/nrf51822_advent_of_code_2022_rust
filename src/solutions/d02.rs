@@ -1,7 +1,7 @@
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
-/// Measured speed: 14777us.
+/// Measured speed: 13364us.
 pub fn p1(input: Vec<u8>) {
     // Initialize variable to keep track of the total score
     let mut total_score = 0u32;
@@ -32,7 +32,7 @@ pub fn p1(input: Vec<u8>) {
     rprintln!("d02a: {}", total_score);
 }
 
-/// Measured speed: 14777us.
+/// Measured speed: 13365us.
 pub fn p2(input: Vec<u8>) {
     // Initialize variable to keep track of the total score
     let mut total_score = 0u32;

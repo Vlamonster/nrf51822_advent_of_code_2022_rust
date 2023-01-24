@@ -1,6 +1,7 @@
 #![no_main]
 #![no_std]
 #![feature(alloc_error_handler)]
+#![feature(iter_array_chunks)]
 
 mod solutions;
 
@@ -16,7 +17,7 @@ use lzss::{Lzss, SliceReader, SliceWriter};
 use nrf51_hal as hal;
 use nrf51_hal::pac::Peripherals;
 use nrf51_hal::pac::timer0::mode::MODE_A;
-use nrf51_hal::pac::timer2::bitmode::BITMODE_A;
+use nrf51_hal::pac::timer0::bitmode::BITMODE_A;
 use rtt_target::{rprintln, rtt_init_print};
 
 type MyLzss = Lzss<10, 4, 0x20, { 1 << 10 }, { 2 << 10 }>;

@@ -5,7 +5,7 @@ use rtt_target::rprintln;
 
 const VD: VecDeque<u8> = VecDeque::new();
 
-/// Measured speed: 41741us.
+/// Measured speed: 29233us.
 pub fn p1(input: Vec<u8>) {
     let mut reading_stacks = true;
     let mut stacks = [VD; 9];
@@ -58,7 +58,7 @@ pub fn p1(input: Vec<u8>) {
     );
 }
 
-/// Measured speed: 52429us.
+/// Measured speed: 33276us.
 pub fn p2(input: Vec<u8>) {
     let mut reading_stacks = true;
     let mut stacks = [VD; 9];

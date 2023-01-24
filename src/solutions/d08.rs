@@ -1,7 +1,7 @@
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
-/// Measured speed: 231834us.
+/// Measured speed: 168624us.
 pub fn p1(input: Vec<u8>) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
     let height = input.iter().rposition(|&d| d == b'\n').unwrap() / width;
@@ -36,7 +36,7 @@ pub fn p1(input: Vec<u8>) {
     rprintln!("d08a: {}", visible);
 }
 
-/// Measured speed: 315145us.
+/// Measured speed: 167650us.
 pub fn p2(input: Vec<u8>) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
     let height = input.iter().rposition(|&d| d == b'\n').unwrap() / width;

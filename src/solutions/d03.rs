@@ -1,7 +1,7 @@
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
-/// Measured speed: 22364us.
+/// Measured speed: 29327us.
 pub fn p1(input: Vec<u8>) {
     let mut total = 0;
     for backpack in input.split(|&byte| byte == b'\n') {
@@ -42,7 +42,7 @@ pub fn p1(input: Vec<u8>) {
     rprintln!("d03a: {}", total);
 }
 
-/// Measured speed: 21813us.
+/// Measured speed: 28986us.
 pub fn p2(input: Vec<u8>) {
     let mut total = 0;
     for [elf1, elf2, elf3] in input.split(|&byte| byte == b'\n').array_chunks() {

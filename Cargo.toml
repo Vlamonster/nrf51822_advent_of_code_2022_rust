@@ -42,7 +42,7 @@ codegen-units = 1
 strip = false
 # Cargo defaults its optimization level to 3 for release builds, which optimizes the binary for speed.
 # To instruct Cargo to optimize for minimal binary size, use the z optimization level.
-opt-level = 'z'
+opt-level = 3
 # By default, Cargo instructs compilation units to be compiled and optimized in isolation. LTO instructs
 # the linker to optimize at the link stage. This can, for example, remove dead code and often times reduces binary size.
 lto = true

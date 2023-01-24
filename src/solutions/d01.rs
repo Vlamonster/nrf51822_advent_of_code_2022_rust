@@ -1,7 +1,7 @@
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
-/// Measured speed: 11190us.
+/// Measured speed: 11695us.
 pub fn p1(input: Vec<u8>) {
     // Initialize variables to keep track of maximum sum, current group sum and current line sum
     let mut max_sum = 0;
@@ -36,7 +36,7 @@ pub fn p1(input: Vec<u8>) {
     rprintln!("d01a: {}", max_sum);
 }
 
-/// Measured speed: 12561us.
+/// Measured speed: 11964us.
 pub fn p2(input: Vec<u8>) {
     // Initialize variables to keep track of highest sums, current group sum and current line sum
     let mut highest_sums = [0, 0, 0];
