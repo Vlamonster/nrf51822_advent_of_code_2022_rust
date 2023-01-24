@@ -1,6 +1,7 @@
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
+/// Measured speed: 231834us.
 pub fn p1(input: Vec<u8>) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
     let height = input.iter().rposition(|&d| d == b'\n').unwrap() / width;
@@ -12,19 +13,20 @@ pub fn p1(input: Vec<u8>) {
                 visible += 1;
                 continue;
             }
-            if (0..x).all(|nx| input[y * (width + 1) + nx] < input[y * (width + 1) + x]) {
+            let tree = input[y * (width + 1) + x];
+            if (0..x).rev().all(|nx| input[y * (width + 1) + nx] < tree) {
                 visible += 1;
                 continue;
             }
-            if (x + 1..width).all(|nx| input[y * (width + 1) + nx] < input[y * (width + 1) + x]) {
+            if (x + 1..width).all(|nx| input[y * (width + 1) + nx] < tree) {
                 visible += 1;
                 continue;
             }
-            if (0..y).all(|ny| input[ny * (width + 1) + x] < input[y * (width + 1) + x]) {
+            if (0..y).rev().all(|ny| input[ny * (width + 1) + x] < tree) {
                 visible += 1;
                 continue;
             }
-            if (y + 1..height).all(|ny| input[ny * (width + 1) + x] < input[y * (width + 1) + x]) {
+            if (y + 1..height).all(|ny| input[ny * (width + 1) + x] < tree) {
                 visible += 1;
                 continue;
             }
