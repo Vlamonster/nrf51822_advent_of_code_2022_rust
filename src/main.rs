@@ -7,7 +7,7 @@ mod solutions;
 
 extern crate alloc;
 
-use crate::solutions::{d01, d02, d03, d04, d05, d06, d07, d08};
+use crate::solutions::{d01, d02, d03, d04, d05, d06, d07, d08, d09};
 use alloc_cortex_m::CortexMHeap;
 use core::alloc::Layout;
 use cortex_m::asm::delay;
@@ -95,6 +95,7 @@ fn main() -> ! {
     d07::p2(decompress_size_prepended(INPUTS[6]).unwrap());
     d08::p1(decompress_size_prepended(INPUTS[7]).unwrap());
     d08::p2(decompress_size_prepended(INPUTS[7]).unwrap());
+    d09::p1(decompress_size_prepended(INPUTS[8]).unwrap());
 
     tim0.tasks_capture[0].write(|w| unsafe { w.bits(1) });
     rprintln!("computation took {:?}us", tim0.cc[0].read().bits());
