@@ -99,3 +99,7 @@ pub fn p1(input: Vec<u8>) {
     }
     rprintln!("d09a: {}", visited);
 }
+
+pub fn p2(_memory: &mut [u8], _input: &[u8]) {
+    rprintln!("d09b: {}", "nyi");
+}

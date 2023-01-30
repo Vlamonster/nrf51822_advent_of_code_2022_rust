@@ -1,4 +1,4 @@
-use lz4_flex::compress_prepend_size;
+use lz4_flex::compress;
 use std::fs::File;
 use std::io::{Read, Write};
 
@@ -11,6 +11,6 @@ fn main() {
             .unwrap();
 
         let mut output = File::create(format!("inputs/d{i:02}c.txt")).unwrap();
-        output.write_all(&compress_prepend_size(&buffer)).unwrap();
+        output.write_all(&compress(&buffer)).unwrap();
     }
 }

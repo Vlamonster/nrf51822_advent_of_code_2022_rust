@@ -1,11 +1,30 @@
-use alloc::vec;
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
 /// Speed measured: 17689us.
-pub fn p1(input: Vec<u8>) {
-    let mut directories = vec![0];
-    let mut path = vec![0];
+pub fn p1(memory: &mut [u8], input: &[u8]) {
+    let mut directories = unsafe {
+        Vec::from_raw_parts(
+            memory
+                .as_mut_ptr()
+                .add(input.len() + 4 - input.len() % 4)
+                .cast::<u32>(),
+            0,
+            1000,
+        )
+    };
+    let mut path = unsafe {
+        Vec::from_raw_parts(
+            directories
+                .as_mut_ptr()
+                .add(directories.capacity())
+                .cast::<usize>(),
+            0,
+            1000,
+        )
+    };
+    directories.push(0);
+    path.push(0);
     for line in input.split(|&d| d == b'\n') {
         match line {
             b"$ cd .." => {
@@ -43,12 +62,35 @@ pub fn p1(input: Vec<u8>) {
             .filter(|&&size| size < 100000)
             .sum::<u32>()
     );
+
+    directories.into_raw_parts();
+    path.into_raw_parts();
 }
 
 /// Measured speed: 17873us.
-pub fn p2(input: Vec<u8>) {
-    let mut directories = vec![0];
-    let mut path = vec![0];
+pub fn p2(memory: &mut [u8], input: &[u8]) {
+    let mut directories = unsafe {
+        Vec::from_raw_parts(
+            memory
+                .as_mut_ptr()
+                .add(input.len() + 4 - input.len() % 4)
+                .cast::<u32>(),
+            0,
+            1000,
+        )
+    };
+    let mut path = unsafe {
+        Vec::from_raw_parts(
+            directories
+                .as_mut_ptr()
+                .add(directories.capacity())
+                .cast::<usize>(),
+            0,
+            1000,
+        )
+    };
+    directories.push(0);
+    path.push(0);
     for line in input.split(|&d| d == b'\n') {
         match line {
             b"$ cd .." => {
@@ -88,4 +130,7 @@ pub fn p2(input: Vec<u8>) {
             .min()
             .unwrap()
     );
+
+    directories.into_raw_parts();
+    path.into_raw_parts();
 }

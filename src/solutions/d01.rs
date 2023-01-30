@@ -1,8 +1,7 @@
-use alloc::vec::Vec;
 use rtt_target::rprintln;
 
 /// Measured speed: 11695us.
-pub fn p1(input: Vec<u8>) {
+pub fn p1(_memory: &mut [u8], input: &[u8]) {
     // Initialize variables to keep track of maximum sum, current group sum and current line sum
     let mut max_sum = 0;
     let mut current_group_sum = 0;
@@ -11,7 +10,7 @@ pub fn p1(input: Vec<u8>) {
     // Initialize variable to keep track of whether the last byte encountered was a newline
     let mut last_byte_was_newline = false;
 
-    for byte in input {
+    for &byte in input {
         match (byte, last_byte_was_newline) {
             // If the current byte is a newline and the last byte was also a newline
             (b'\n', true) => {
@@ -37,7 +36,7 @@ pub fn p1(input: Vec<u8>) {
 }
 
 /// Measured speed: 11964us.
-pub fn p2(input: Vec<u8>) {
+pub fn p2(_memory: &mut [u8], input: &[u8]) {
     // Initialize variables to keep track of highest sums, current group sum and current line sum
     let mut highest_sums = [0, 0, 0];
     let mut current_group_sum = 0;
@@ -46,7 +45,7 @@ pub fn p2(input: Vec<u8>) {
     // Initialize variable to keep track of whether the last byte encountered was a newline
     let mut last_byte_was_newline = false;
 
-    for byte in input {
+    for &byte in input {
         match (byte, last_byte_was_newline) {
             // If the current byte is a newline and the last byte was also a newline
             (b'\n', true) => {

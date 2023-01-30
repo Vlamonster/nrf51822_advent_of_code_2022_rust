@@ -1,12 +1,11 @@
-use alloc::vec::Vec;
 use rtt_target::rprintln;
 
 /// Measured speed: 20453us.
-pub fn p1(input: Vec<u8>) {
+pub fn p1(_memory: &mut [u8], input: &[u8]) {
     let (mut a, mut b, mut c, mut d) = (0, 0, 0, 0);
     let mut counter = 0;
     let mut total = 0;
-    for byte in input {
+    for &byte in input {
         match byte {
             b'-' | b',' => counter += 1,
             b'\n' => {
@@ -31,11 +30,11 @@ pub fn p1(input: Vec<u8>) {
 }
 
 /// Measured speed: 19809us
-pub fn p2(input: Vec<u8>) {
+pub fn p2(_memory: &mut [u8], input: &[u8]) {
     let (mut a, mut b, mut c, mut d) = (0, 0, 0, 0);
     let mut counter = 0;
     let mut total = 0;
-    for byte in input {
+    for &byte in input {
         match byte {
             b'-' | b',' => counter += 1,
             b'\n' => {

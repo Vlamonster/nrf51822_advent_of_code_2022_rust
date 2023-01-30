@@ -1,15 +1,14 @@
-use alloc::vec::Vec;
 use rtt_target::rprintln;
 
 /// Measured speed: 13364us.
-pub fn p1(input: Vec<u8>) {
+pub fn p1(_memory: &mut [u8], input: &[u8]) {
     // Initialize variable to keep track of the total score
     let mut total_score = 0u32;
 
     // Initialize variable to keep track of the last played shape by opponent
     let mut opponent = b'\n';
 
-    for byte in input {
+    for &byte in input {
         match (opponent, byte) {
             // If byte is one of [b'A', b'B', b'C'] then this is opponent's shape
             (_, b'A') => opponent = b'A',
@@ -33,14 +32,14 @@ pub fn p1(input: Vec<u8>) {
 }
 
 /// Measured speed: 13365us.
-pub fn p2(input: Vec<u8>) {
+pub fn p2(_memory: &mut [u8], input: &[u8]) {
     // Initialize variable to keep track of the total score
     let mut total_score = 0u32;
 
     // Initialize variable to keep track of the last played shape by opponent
     let mut opponent = b'\n';
 
-    for byte in input {
+    for &byte in input {
         match (opponent, byte) {
             // If byte is one of [b'A', b'B', b'C'] then this is opponent's shape
             (_, b'A') => opponent = b'A',
