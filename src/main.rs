@@ -122,22 +122,6 @@ fn main() -> ! {
 
     rprintln!("Starting computation:");
 
-    // #[derive(Debug, Copy, Clone)]
-    // #[repr(packed)]
-    // struct Toople {
-    //     a: u16,
-    //     b: u16,
-    // }
-    //
-    // let mut x = [1u8; 28000];
-    // let pointer = x.as_mut_ptr().cast::<Toople>();
-    // let y = unsafe {
-    //     Vec::from_raw_parts(pointer, 10, 10)
-    // };
-    // rprintln!("{:?}", y);
-    // drop(x);
-    // // rprintln!("h");
-
     for d in 1..=25 {
         for p in 1..=2 {
             solve(d, p);
