@@ -1,6 +1,6 @@
 use rtt_target::rprintln;
 
-/// Measured speed: 10,345us.
+/// Measured speed: 10,122us.
 pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     // Initialize variables to keep track of maximum sum, current group sum and current line sum
     let mut max_sum = 0;
@@ -10,7 +10,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     // Initialize variable to keep track of whether the last byte encountered was a newline
     let mut last_byte_was_newline = false;
 
-    for &byte in input.iter() {
+    input.iter().for_each(|&byte| {
         match (byte, last_byte_was_newline) {
             // If the current byte is a newline and the last byte was also a newline
             (b'\n', true) => {
@@ -31,7 +31,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
                 last_byte_was_newline = false;
             }
         }
-    }
+    });
     rprintln!("d01a: {}", max_sum);
 }
 
@@ -45,7 +45,7 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     // Initialize variable to keep track of whether the last byte encountered was a newline
     let mut last_byte_was_newline = false;
 
-    for &byte in input.iter() {
+    input.iter().for_each(|&byte| {
         match (byte, last_byte_was_newline) {
             // If the current byte is a newline and the last byte was also a newline
             (b'\n', true) => {
@@ -67,7 +67,7 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
                 last_byte_was_newline = false;
             }
         }
-    }
+    });
     rprintln!(
         "d01b: {}",
         highest_sums[0] + highest_sums[1] + highest_sums[2]
