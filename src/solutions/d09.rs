@@ -10,7 +10,7 @@ enum Direction {
     Right,
 }
 
-/// Measured speed: 230,461us.
+/// Measured speed: 206,356us.
 pub fn p1(memory: &mut [u8], input: &[u8]) {
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 2];
     let mut direction = Direction::Up;
@@ -28,7 +28,7 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
             b'L' => direction = Direction::Left,
             b'R' => direction = Direction::Right,
             b'\n' => {
-                for _ in 0..steps {
+                'outer: for _ in 0..steps {
                     match direction {
                         Direction::Up => rope[0].1 += 1,
                         Direction::Down => rope[0].1 -= 1,
@@ -42,6 +42,8 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
                         if y_diff.abs() >= 2 || x_diff.abs() >= 2 {
                             rope[knot].0 += x_diff.signum();
                             rope[knot].1 += y_diff.signum();
+                        } else {
+                            continue 'outer;
                         }
                     }
                     let &(tx, ty) = rope.last().unwrap();
@@ -79,7 +81,7 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
             b'L' => direction = Direction::Left,
             b'R' => direction = Direction::Right,
             b'\n' => {
-                for _ in 0..steps {
+                'outer: for _ in 0..steps {
                     match direction {
                         Direction::Up => rope[0].1 += 1,
                         Direction::Down => rope[0].1 -= 1,
@@ -93,6 +95,8 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
                         if y_diff.abs() >= 2 || x_diff.abs() >= 2 {
                             rope[knot].0 += x_diff.signum();
                             rope[knot].1 += y_diff.signum();
+                        } else {
+                            continue 'outer;
                         }
                     }
 
@@ -120,7 +124,7 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
     );
 }
 
-/// Measured speed: 789,910us.
+/// Measured speed: 513,470us.
 pub fn p2(memory: &mut [u8], input: &[u8]) {
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 10];
     let mut direction = Direction::Up;
@@ -138,7 +142,7 @@ pub fn p2(memory: &mut [u8], input: &[u8]) {
             b'L' => direction = Direction::Left,
             b'R' => direction = Direction::Right,
             b'\n' => {
-                for _ in 0..steps {
+                'outer: for _ in 0..steps {
                     match direction {
                         Direction::Up => rope[0].1 += 1,
                         Direction::Down => rope[0].1 -= 1,
@@ -152,6 +156,8 @@ pub fn p2(memory: &mut [u8], input: &[u8]) {
                         if y_diff.abs() >= 2 || x_diff.abs() >= 2 {
                             rope[knot].0 += x_diff.signum();
                             rope[knot].1 += y_diff.signum();
+                        } else {
+                            continue 'outer;
                         }
                     }
                     let &(tx, ty) = rope.last().unwrap();
@@ -167,16 +173,17 @@ pub fn p2(memory: &mut [u8], input: &[u8]) {
         }
     }
 
+    let width = (max_x - min_x) as usize;
+    let height = (max_y - min_y) as usize;
+
     let visited = unsafe {
         slice::from_raw_parts_mut(
             memory.as_mut_ptr().add(input.len()),
-            memory.len() - input.len(),
+            ((width + 1) * (height + 1) - 1) / 8 + 1,
         )
     };
 
     visited.fill(0);
-
-    let width = (max_x - min_x) as usize;
 
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 10];
     let mut direction = Direction::Up;
@@ -189,7 +196,7 @@ pub fn p2(memory: &mut [u8], input: &[u8]) {
             b'L' => direction = Direction::Left,
             b'R' => direction = Direction::Right,
             b'\n' => {
-                for _ in 0..steps {
+                'outer: for _ in 0..steps {
                     match direction {
                         Direction::Up => rope[0].1 += 1,
                         Direction::Down => rope[0].1 -= 1,
@@ -203,6 +210,8 @@ pub fn p2(memory: &mut [u8], input: &[u8]) {
                         if y_diff.abs() >= 2 || x_diff.abs() >= 2 {
                             rope[knot].0 += x_diff.signum();
                             rope[knot].1 += y_diff.signum();
+                        } else {
+                            continue 'outer;
                         }
                     }
 
@@ -213,7 +222,7 @@ pub fn p2(memory: &mut [u8], input: &[u8]) {
 
                     let bit_index = ry * width + rx;
                     let byte_index = bit_index / 8;
-                    let inner_index = bit_index % 8; // maybe and?
+                    let inner_index = bit_index % 8;
 
                     visited[byte_index] |= 1 << inner_index;
                 }
