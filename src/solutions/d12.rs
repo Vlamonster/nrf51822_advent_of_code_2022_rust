@@ -2,7 +2,7 @@ use crate::data_structures::bitarray::BitArray2D;
 use crate::data_structures::ringbuffer::RingBuffer;
 use rtt_target::rprintln;
 
-/// Measured speed: 200,008us.
+/// Measured speed: 193,192us.
 pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
     let height = input.iter().rposition(|&d| d == b'\n').unwrap() / width;
@@ -17,12 +17,12 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
         RingBuffer::new(pointer.add(offset).cast::<(u8, u8, u16)>(), 1 << 10)
     };
 
-    let (mut sx, mut sy) = (0, 0);
     'outer: for y in 0..height {
         for x in 0..width {
             if input[y * (width + 1) + x] == b'S' {
-                (sx, sy) = (x, y);
                 input[y * (width + 1) + x] = b'a';
+                unvisited.queue((x as u8, y as u8, 0));
+                visited.set(x, y);
                 break 'outer;
             }
         }
@@ -39,9 +39,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
         }
     }
 
-    unvisited.queue((sx as u8, sy as u8, 0));
     let total_steps;
-
     loop {
         let (x, y, steps) = unvisited.dequeue();
         let (x, y) = (x as usize, y as usize);
@@ -75,7 +73,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     rprintln!("d12a: {}", total_steps);
 }
 
-/// Measured speed: 259,865us.
+/// Measured speed: 198,169us.
 pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
     let height = input.iter().rposition(|&d| d == b'\n').unwrap() / width;
@@ -114,6 +112,7 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
         for x in 0..width {
             if input[y * (width + 1) + x] == b'a' {
                 unvisited.queue((x as u8, y as u8, 0));
+                visited.set(x, y);
             }
         }
     }
