@@ -26,15 +26,15 @@ will be a challenge for sure.
 
 # Required Tools
 
-| Tool                                                              | Installation Command                                        |
-|-------------------------------------------------------------------|-------------------------------------------------------------|
-| [rustup](https://www.rust-lang.org/tools/install)                 | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs` |
-| llvm-tools-preview                                                | `rustup component add llvm-tools-preview`                   |
-| thumbv6m-none-eabi                                                | `rustup target add thumbv6m-none-eabi`                      |
-| [cargo-binutils](https://github.com/rust-embedded/cargo-binutils) | `cargo install cargo-binutils`                              |
-| [cargo-embed](https://github.com/probe-rs/cargo-embed)            | `cargo install cargo-embed`                                 |
-| [cargo-bloat](https://github.com/RazrFalcon/cargo-bloat)          | `cargo install cargo-bloat`                                 |
-| OpenOCD                                                           | `sudo apt install openocd`                                  |
+| Tool                                                              | Installation Command                                              |
+|-------------------------------------------------------------------|-------------------------------------------------------------------|
+| [rustup](https://www.rust-lang.org/tools/install)                 | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
+| llvm-tools-preview                                                | `rustup component add llvm-tools-preview`                         |
+| thumbv6m-none-eabi                                                | `rustup target add thumbv6m-none-eabi`                            |
+| [cargo-binutils](https://github.com/rust-embedded/cargo-binutils) | `cargo install cargo-binutils`                                    |
+| [cargo-embed](https://github.com/probe-rs/cargo-embed)            | `cargo install cargo-embed`                                       |
+| [cargo-bloat](https://github.com/RazrFalcon/cargo-bloat)          | `cargo install cargo-bloat`                                       |
+| OpenOCD                                                           | `sudo apt install openocd`                                        |
 
 # Setting up Environment
 
