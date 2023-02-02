@@ -51,7 +51,7 @@ const INPUTS: [&[u8]; 25] = [
     include_bytes!("../inputs/d25c.txt"),
 ];
 
-type Solution = fn(&mut [u8], &[u8]);
+type Solution = fn(&mut [u8], &mut [u8]);
 
 const SOLUTIONS: [[Solution; 2]; 25] = [
     [d01::p1, d01::p2],
@@ -104,8 +104,8 @@ fn alloc_error(layout: Layout) -> ! {
 fn solve(d: usize, p: usize) {
     let mut memory = [0u8; 28000];
     let input_size = decompress_into(INPUTS[d - 1], &mut memory).unwrap();
-    let input = unsafe { slice::from_raw_parts(memory.as_mut_ptr(), input_size) };
-    SOLUTIONS[d - 1][p - 1](&mut memory, input);
+    let mut input = unsafe { slice::from_raw_parts_mut(memory.as_mut_ptr(), input_size) };
+    SOLUTIONS[d - 1][p - 1](&mut memory, &mut input);
 }
 
 #[cortex_m_rt::entry]
