@@ -5,6 +5,7 @@
 #![feature(vec_push_within_capacity)]
 #![feature(vec_into_raw_parts)]
 
+mod data_structures;
 mod solutions;
 
 extern crate alloc;
@@ -104,8 +105,8 @@ fn alloc_error(layout: Layout) -> ! {
 fn solve(d: usize, p: usize) {
     let mut memory = [0u8; 28000];
     let input_size = decompress_into(INPUTS[d - 1], &mut memory).unwrap();
-    let mut input = unsafe { slice::from_raw_parts_mut(memory.as_mut_ptr(), input_size) };
-    SOLUTIONS[d - 1][p - 1](&mut memory, &mut input);
+    let input = unsafe { slice::from_raw_parts_mut(memory.as_mut_ptr(), input_size) };
+    SOLUTIONS[d - 1][p - 1](&mut memory, input);
 }
 
 #[cortex_m_rt::entry]

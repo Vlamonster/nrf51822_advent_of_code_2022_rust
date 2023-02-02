@@ -1,20 +1,13 @@
+use crate::data_structures::bitarray::BitArray2D;
 use alloc::collections::VecDeque;
-use core::slice;
 use rtt_target::rprintln;
 
 /// Measured speed: 200,008us.
-pub fn p1(memory: &mut [u8], input: &mut [u8]) {
+pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
     let height = input.iter().rposition(|&d| d == b'\n').unwrap() / width;
 
-    let visited = unsafe {
-        slice::from_raw_parts_mut(
-            memory.as_mut_ptr().add(input.len()),
-            (width * height - 1) / 8 + 1,
-        )
-    };
-
-    visited.fill(0);
+    let mut visited = BitArray2D::new(input.as_mut_ptr(), input.len(), width, height);
 
     let mut unvisited = VecDeque::new();
 
@@ -63,14 +56,10 @@ pub fn p1(memory: &mut [u8], input: &mut [u8]) {
                 continue;
             }
 
-            let bit_index = ny * width + nx;
-            let byte_index = bit_index / 8;
-            let inner_index = (bit_index % 8) as u8;
-
-            if visited[byte_index] & 1 << inner_index != 0 {
+            if visited.get(nx, ny) {
                 continue;
             } else {
-                visited[byte_index] |= 1 << inner_index;
+                visited.set(nx, ny)
             }
 
             unvisited.push_back((nx as u8, ny as u8, steps + 1));

@@ -1,6 +1,6 @@
+use crate::data_structures::bitarray::BitArray2D;
 use alloc::vec;
 use alloc::vec::Vec;
-use core::slice;
 use rtt_target::rprintln;
 
 enum Direction {
@@ -11,7 +11,7 @@ enum Direction {
 }
 
 /// Measured speed: 206,356us.
-pub fn p1(memory: &mut [u8], input: &mut [u8]) {
+pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 2];
     let mut direction = Direction::Up;
     let mut steps = 0;
@@ -59,16 +59,11 @@ pub fn p1(memory: &mut [u8], input: &mut [u8]) {
         }
     }
 
-    let visited = unsafe {
-        slice::from_raw_parts_mut(
-            memory.as_mut_ptr().add(input.len()),
-            memory.len() - input.len(),
-        )
-    };
+    let width = (max_x - min_x) as usize + 1;
+    let height = (max_y - min_y) as usize + 1;
 
-    visited.fill(0);
-
-    let width = (max_x - min_x) as usize;
+    let mut visited = BitArray2D::new(input.as_mut_ptr(), input.len(), width, height);
+    visited.set(0, 0);
 
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 2];
     let mut direction = Direction::Up;
@@ -101,15 +96,9 @@ pub fn p1(memory: &mut [u8], input: &mut [u8]) {
                     }
 
                     let &(tx, ty) = rope.last().unwrap();
+                    let (rx, ry) = ((tx - min_x) as usize, (ty - min_y) as usize);
 
-                    let rx = (tx - min_x) as usize;
-                    let ry = (ty - min_y) as usize;
-
-                    let bit_index = ry * width + rx;
-                    let byte_index = bit_index / 8;
-                    let inner_index = bit_index % 8; // maybe and?
-
-                    visited[byte_index] |= 1 << inner_index;
+                    visited.set(rx, ry);
                 }
                 steps = 0;
             }
@@ -117,15 +106,11 @@ pub fn p1(memory: &mut [u8], input: &mut [u8]) {
             _ => steps = steps * 10 + (byte - b'0'),
         }
     }
-
-    rprintln!(
-        "d09a: {}",
-        visited.iter().map(|byte| byte.count_ones()).sum::<u32>()
-    );
+    rprintln!("d09a: {}", visited.count_ones());
 }
 
 /// Measured speed: 513,470us.
-pub fn p2(memory: &mut [u8], input: &mut [u8]) {
+pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 10];
     let mut direction = Direction::Up;
     let mut steps = 0;
@@ -173,17 +158,11 @@ pub fn p2(memory: &mut [u8], input: &mut [u8]) {
         }
     }
 
-    let width = (max_x - min_x) as usize;
-    let height = (max_y - min_y) as usize;
+    let width = (max_x - min_x) as usize + 1;
+    let height = (max_y - min_y) as usize + 1;
 
-    let visited = unsafe {
-        slice::from_raw_parts_mut(
-            memory.as_mut_ptr().add(input.len()),
-            ((width + 1) * (height + 1) - 1) / 8 + 1,
-        )
-    };
-
-    visited.fill(0);
+    let mut visited = BitArray2D::new(input.as_mut_ptr(), input.len(), width, height);
+    visited.set(0, 0);
 
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 10];
     let mut direction = Direction::Up;
@@ -216,15 +195,9 @@ pub fn p2(memory: &mut [u8], input: &mut [u8]) {
                     }
 
                     let &(tx, ty) = rope.last().unwrap();
+                    let (rx, ry) = ((tx - min_x) as usize, (ty - min_y) as usize);
 
-                    let rx = (tx - min_x) as usize;
-                    let ry = (ty - min_y) as usize;
-
-                    let bit_index = ry * width + rx;
-                    let byte_index = bit_index / 8;
-                    let inner_index = bit_index % 8;
-
-                    visited[byte_index] |= 1 << inner_index;
+                    visited.set(rx, ry);
                 }
                 steps = 0;
             }
@@ -233,8 +206,5 @@ pub fn p2(memory: &mut [u8], input: &mut [u8]) {
         }
     }
 
-    rprintln!(
-        "d09b: {}",
-        visited.iter().map(|byte| byte.count_ones()).sum::<u32>()
-    );
+    rprintln!("d09b: {}", visited.count_ones());
 }
