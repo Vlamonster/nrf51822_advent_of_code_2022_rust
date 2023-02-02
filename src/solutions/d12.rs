@@ -14,6 +14,8 @@ pub fn p1(memory: &mut [u8], input: &mut [u8]) {
         )
     };
 
+    visited.fill(0);
+
     let mut unvisited = VecDeque::new();
 
     let (mut sx, mut sy) = (0, 0);
