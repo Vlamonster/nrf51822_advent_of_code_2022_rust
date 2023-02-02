@@ -3,7 +3,7 @@ use alloc::vec::Vec;
 use rtt_target::rprintln;
 
 /// Measured speed: 844us.
-pub fn p1(memory: &mut [u8], input: &[u8]) {
+pub fn p1(memory: &mut [u8], input: &mut [u8]) {
     let mut trace = unsafe {
         Vec::from_raw_parts(
             memory
@@ -61,7 +61,7 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
 }
 
 /// Measured speed: 1,820us.
-pub fn p2(memory: &mut [u8], input: &[u8]) {
+pub fn p2(memory: &mut [u8], input: &mut [u8]) {
     let mut trace = unsafe {
         Vec::from_raw_parts(
             memory

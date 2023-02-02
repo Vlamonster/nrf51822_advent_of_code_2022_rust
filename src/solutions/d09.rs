@@ -11,7 +11,7 @@ enum Direction {
 }
 
 /// Measured speed: 206,356us.
-pub fn p1(memory: &mut [u8], input: &[u8]) {
+pub fn p1(memory: &mut [u8], input: &mut [u8]) {
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 2];
     let mut direction = Direction::Up;
     let mut steps = 0;
@@ -21,7 +21,7 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
     let mut min_y = 0;
     let mut max_y = 0;
 
-    for &byte in input {
+    for &byte in input.iter() {
         match byte {
             b'U' => direction = Direction::Up,
             b'D' => direction = Direction::Down,
@@ -74,7 +74,7 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
     let mut direction = Direction::Up;
     let mut steps = 0;
 
-    for &byte in input {
+    for &byte in input.iter() {
         match byte {
             b'U' => direction = Direction::Up,
             b'D' => direction = Direction::Down,
@@ -125,7 +125,7 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
 }
 
 /// Measured speed: 513,470us.
-pub fn p2(memory: &mut [u8], input: &[u8]) {
+pub fn p2(memory: &mut [u8], input: &mut [u8]) {
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 10];
     let mut direction = Direction::Up;
     let mut steps = 0;
@@ -135,7 +135,7 @@ pub fn p2(memory: &mut [u8], input: &[u8]) {
     let mut min_y = 0;
     let mut max_y = 0;
 
-    for &byte in input {
+    for &byte in input.iter() {
         match byte {
             b'U' => direction = Direction::Up,
             b'D' => direction = Direction::Down,
@@ -189,7 +189,7 @@ pub fn p2(memory: &mut [u8], input: &[u8]) {
     let mut direction = Direction::Up;
     let mut steps = 0;
 
-    for &byte in input {
+    for &byte in input.iter() {
         match byte {
             b'U' => direction = Direction::Up,
             b'D' => direction = Direction::Down,

@@ -1,7 +1,7 @@
 use rtt_target::rprintln;
 
 /// Measured speed: 30,443us.
-pub fn p1(_memory: &mut [u8], input: &[u8]) {
+pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     let mut total = 0;
     for backpack in input.split(|&byte| byte == b'\n') {
         // Split the backpack string into the first and second half
@@ -42,7 +42,7 @@ pub fn p1(_memory: &mut [u8], input: &[u8]) {
 }
 
 /// Measured speed: 30,574us.
-pub fn p2(_memory: &mut [u8], input: &[u8]) {
+pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     let mut total = 0;
     for [elf1, elf2, elf3] in input.split(|&byte| byte == b'\n').array_chunks() {
         let mut elf1_lowercase = 0u32;

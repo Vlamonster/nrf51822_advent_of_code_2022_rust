@@ -1,14 +1,14 @@
 use rtt_target::rprintln;
 
 /// Measured speed: 12,215us.
-pub fn p1(_memory: &mut [u8], input: &[u8]) {
+pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     // Initialize variable to keep track of the total score
     let mut total_score = 0u32;
 
     // Initialize variable to keep track of the last played shape by opponent
     let mut opponent = b'\n';
 
-    for &byte in input {
+    for &byte in input.iter() {
         match (opponent, byte) {
             // If byte is one of [b'A', b'B', b'C'] then this is opponent's shape
             (_, b'A') => opponent = b'A',
@@ -32,14 +32,14 @@ pub fn p1(_memory: &mut [u8], input: &[u8]) {
 }
 
 /// Measured speed: 12,214us.
-pub fn p2(_memory: &mut [u8], input: &[u8]) {
+pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     // Initialize variable to keep track of the total score
     let mut total_score = 0u32;
 
     // Initialize variable to keep track of the last played shape by opponent
     let mut opponent = b'\n';
 
-    for &byte in input {
+    for &byte in input.iter() {
         match (opponent, byte) {
             // If byte is one of [b'A', b'B', b'C'] then this is opponent's shape
             (_, b'A') => opponent = b'A',
