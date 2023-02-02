@@ -10,7 +10,7 @@ enum Direction {
     Right,
 }
 
-/// Measured speed: 225,121us.
+/// Measured speed: 230,461us.
 pub fn p1(memory: &mut [u8], input: &[u8]) {
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 2];
     let mut direction = Direction::Up;
@@ -120,6 +120,7 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
     );
 }
 
+/// Measured speed: 789,910us.
 pub fn p2(memory: &mut [u8], input: &[u8]) {
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 10];
     let mut direction = Direction::Up;

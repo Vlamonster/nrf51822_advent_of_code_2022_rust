@@ -1,6 +1,6 @@
 use rtt_target::rprintln;
 
-/// Measured speed: 29327us.
+/// Measured speed: 30,443us.
 pub fn p1(_memory: &mut [u8], input: &[u8]) {
     let mut total = 0;
     for backpack in input.split(|&byte| byte == b'\n') {
@@ -41,7 +41,7 @@ pub fn p1(_memory: &mut [u8], input: &[u8]) {
     rprintln!("d03a: {}", total);
 }
 
-/// Measured speed: 28986us.
+/// Measured speed: 30,574us.
 pub fn p2(_memory: &mut [u8], input: &[u8]) {
     let mut total = 0;
     for [elf1, elf2, elf3] in input.split(|&byte| byte == b'\n').array_chunks() {

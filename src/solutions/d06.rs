@@ -1,6 +1,6 @@
 use rtt_target::rprintln;
 
-/// Measured speed: 6107us.
+/// Measured speed: 5,816us.
 pub fn p1(_memory: &mut [u8], input: &[u8]) {
     let mut hash = 0u32;
     let mut counter = 0;
@@ -20,7 +20,7 @@ pub fn p1(_memory: &mut [u8], input: &[u8]) {
     rprintln!("d06a: {}", counter);
 }
 
-/// Measured speed: 10418us.
+/// Measured speed: 11,392us.
 pub fn p2(_memory: &mut [u8], input: &[u8]) {
     let mut hash = 0u32;
     let mut counter = 0;

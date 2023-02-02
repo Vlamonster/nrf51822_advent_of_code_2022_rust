@@ -1,6 +1,6 @@
 use rtt_target::rprintln;
 
-/// Measured speed: 11695us.
+/// Measured speed: 10,345us.
 pub fn p1(_memory: &mut [u8], input: &[u8]) {
     // Initialize variables to keep track of maximum sum, current group sum and current line sum
     let mut max_sum = 0;
@@ -35,7 +35,7 @@ pub fn p1(_memory: &mut [u8], input: &[u8]) {
     rprintln!("d01a: {}", max_sum);
 }
 
-/// Measured speed: 11964us.
+/// Measured speed: 10,629us.
 pub fn p2(_memory: &mut [u8], input: &[u8]) {
     // Initialize variables to keep track of highest sums, current group sum and current line sum
     let mut highest_sums = [0, 0, 0];

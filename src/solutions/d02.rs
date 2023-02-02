@@ -1,6 +1,6 @@
 use rtt_target::rprintln;
 
-/// Measured speed: 13364us.
+/// Measured speed: 12,215us.
 pub fn p1(_memory: &mut [u8], input: &[u8]) {
     // Initialize variable to keep track of the total score
     let mut total_score = 0u32;
@@ -31,7 +31,7 @@ pub fn p1(_memory: &mut [u8], input: &[u8]) {
     rprintln!("d02a: {}", total_score);
 }
 
-/// Measured speed: 13365us.
+/// Measured speed: 12,214us.
 pub fn p2(_memory: &mut [u8], input: &[u8]) {
     // Initialize variable to keep track of the total score
     let mut total_score = 0u32;

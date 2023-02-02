@@ -1,6 +1,6 @@
 use rtt_target::rprintln;
 
-/// Measured speed: 168624us.
+/// Measured speed: 174,629us.
 pub fn p1(_memory: &mut [u8], input: &[u8]) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
     let height = input.iter().rposition(|&d| d == b'\n').unwrap() / width;
@@ -35,7 +35,7 @@ pub fn p1(_memory: &mut [u8], input: &[u8]) {
     rprintln!("d08a: {}", visible);
 }
 
-/// Measured speed: 167650us.
+/// Measured speed: 166,544us.
 pub fn p2(_memory: &mut [u8], input: &[u8]) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
     let height = input.iter().rposition(|&d| d == b'\n').unwrap() / width;

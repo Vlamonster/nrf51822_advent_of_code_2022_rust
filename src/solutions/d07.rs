@@ -1,7 +1,7 @@
 use alloc::vec::Vec;
 use rtt_target::rprintln;
 
-/// Speed measured: 17689us.
+/// Speed measured: 16,155us.
 pub fn p1(memory: &mut [u8], input: &[u8]) {
     let mut directories = unsafe {
         Vec::from_raw_parts(
@@ -67,7 +67,7 @@ pub fn p1(memory: &mut [u8], input: &[u8]) {
     path.into_raw_parts();
 }
 
-/// Measured speed: 17873us.
+/// Measured speed: 16,255us.
 pub fn p2(memory: &mut [u8], input: &[u8]) {
     let mut directories = unsafe {
         Vec::from_raw_parts(
