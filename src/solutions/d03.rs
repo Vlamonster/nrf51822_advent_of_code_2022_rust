@@ -1,6 +1,6 @@
 use rtt_target::rprintln;
 
-/// Measured speed: 30,443us.
+/// Measured speed: 29,119us.
 pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     let mut total = 0;
     for backpack in input.split(|&byte| byte == b'\n') {
@@ -15,8 +15,8 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
         let mut second_half_uppercase = 0u32;
 
         // Iterate through each character in the first half and mark it as available
-        for item in first_half {
-            if item.is_ascii_lowercase() {
+        for &item in first_half {
+            if item >= b'a' {
                 first_half_lowercase |= 2 << (item - b'a');
             } else {
                 first_half_uppercase |= 2 << (item - b'A');
@@ -24,8 +24,8 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
         }
 
         // Iterate through each character in the second half and mark it as available
-        for item in second_half {
-            if item.is_ascii_lowercase() {
+        for &item in second_half {
+            if item >= b'a' {
                 second_half_lowercase |= 2 << (item - b'a');
             } else {
                 second_half_uppercase |= 2 << (item - b'A');
@@ -41,7 +41,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     rprintln!("d03a: {}", total);
 }
 
-/// Measured speed: 30,574us.
+/// Measured speed: 29,016us.
 pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     let mut total = 0;
     for [elf1, elf2, elf3] in input.split(|&byte| byte == b'\n').array_chunks() {
@@ -52,24 +52,24 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
         let mut elf3_lowercase = 0u32;
         let mut elf3_uppercase = 0u32;
 
-        for item in elf1 {
-            if item.is_ascii_lowercase() {
+        for &item in elf1 {
+            if item >= b'a' {
                 elf1_lowercase |= 2 << (item - b'a');
             } else {
                 elf1_uppercase |= 2 << (item - b'A');
             }
         }
 
-        for item in elf2 {
-            if item.is_ascii_lowercase() {
+        for &item in elf2 {
+            if item >= b'a' {
                 elf2_lowercase |= 2 << (item - b'a');
             } else {
                 elf2_uppercase |= 2 << (item - b'A');
             }
         }
 
-        for item in elf3 {
-            if item.is_ascii_lowercase() {
+        for &item in elf3 {
+            if item >= b'a' {
                 elf3_lowercase |= 2 << (item - b'a');
             } else {
                 elf3_uppercase |= 2 << (item - b'A');
