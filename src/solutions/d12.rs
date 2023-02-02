@@ -1,5 +1,5 @@
 use crate::data_structures::bitarray::BitArray2D;
-use alloc::collections::VecDeque;
+use crate::data_structures::ringbuffer::RingBuffer;
 use rtt_target::rprintln;
 
 /// Measured speed: 200,008us.
@@ -7,9 +7,15 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     let width = input.iter().position(|&d| d == b'\n').unwrap();
     let height = input.iter().rposition(|&d| d == b'\n').unwrap() / width;
 
-    let mut visited = BitArray2D::new(input.as_mut_ptr(), input.len(), width, height);
-
-    let mut unvisited = VecDeque::new();
+    let mut visited = unsafe {
+        let pointer = input.as_mut_ptr().add(input.len());
+        BitArray2D::new(pointer, width, height)
+    };
+    let mut unvisited = unsafe {
+        let pointer = input.as_mut_ptr().add(input.len() + visited.len());
+        let offset = pointer.align_offset(2);
+        RingBuffer::new(pointer.add(offset).cast::<(u8, u8, u16)>(), 1 << 10)
+    };
 
     let (mut sx, mut sy) = (0, 0);
     'outer: for y in 0..height {
@@ -33,11 +39,11 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
         }
     }
 
-    unvisited.push_back((sx as u8, sy as u8, 0));
+    unvisited.queue((sx as u8, sy as u8, 0));
     let total_steps;
 
     loop {
-        let (x, y, steps) = unvisited.pop_front().unwrap();
+        let (x, y, steps) = unvisited.dequeue();
         let (x, y) = (x as usize, y as usize);
         let byte = input[y * (width + 1) + x];
 
@@ -62,7 +68,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
                 visited.set(nx, ny)
             }
 
-            unvisited.push_back((nx as u8, ny as u8, steps + 1));
+            unvisited.queue((nx as u8, ny as u8, steps + 1));
         }
     }
 

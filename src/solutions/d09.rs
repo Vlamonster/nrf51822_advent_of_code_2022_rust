@@ -62,7 +62,10 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     let width = (max_x - min_x) as usize + 1;
     let height = (max_y - min_y) as usize + 1;
 
-    let mut visited = BitArray2D::new(input.as_mut_ptr(), input.len(), width, height);
+    let mut visited = unsafe {
+        let pointer = input.as_mut_ptr().add(input.len());
+        BitArray2D::new(pointer, width, height)
+    };
     visited.set(0, 0);
 
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 2];
@@ -161,7 +164,10 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     let width = (max_x - min_x) as usize + 1;
     let height = (max_y - min_y) as usize + 1;
 
-    let mut visited = BitArray2D::new(input.as_mut_ptr(), input.len(), width, height);
+    let mut visited = unsafe {
+        let pointer = input.as_mut_ptr().add(input.len());
+        BitArray2D::new(pointer, width, height)
+    };
     visited.set(0, 0);
 
     let mut rope: Vec<(i16, i16)> = vec![(0, 0); 10];

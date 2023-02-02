@@ -6,9 +6,8 @@ pub struct BitArray2D<'a> {
 }
 
 impl BitArray2D<'_> {
-    pub fn new(start: *mut u8, offset: usize, width: usize, height: usize) -> Self {
-        let data =
-            unsafe { slice::from_raw_parts_mut(start.add(offset), (width * height - 1) / 8 + 1) };
+    pub fn new(start: *mut u8, width: usize, height: usize) -> Self {
+        let data = unsafe { slice::from_raw_parts_mut(start, (width * height - 1) / 8 + 1) };
         data.fill(0);
 
         BitArray2D { width, data }
@@ -32,5 +31,9 @@ impl BitArray2D<'_> {
 
     pub fn count_ones(&self) -> u32 {
         self.data.iter().map(|&byte| byte.count_ones()).sum::<u32>()
+    }
+
+    pub fn len(&self) -> usize {
+        self.data.len()
     }
 }
