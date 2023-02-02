@@ -10,9 +10,9 @@ enum Direction {
     Right,
 }
 
-/// Measured speed: 206,356us.
+/// Measured speed: 165,469us.
 pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
-    let mut rope: Vec<(i16, i16)> = vec![(0, 0); 2];
+    let mut rope: [(i32, i32); 2] = [(0, 0); 2];
     let mut direction = Direction::Up;
     let mut steps = 0;
 
@@ -39,7 +39,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
                         let x_diff = rope[knot - 1].0 - rope[knot].0;
                         let y_diff = rope[knot - 1].1 - rope[knot].1;
 
-                        if y_diff.abs() >= 2 || x_diff.abs() >= 2 {
+                        if y_diff == 2 || y_diff == -2 || x_diff == 2 || x_diff == -2 {
                             rope[knot].0 += x_diff.signum();
                             rope[knot].1 += y_diff.signum();
                         } else {
@@ -68,7 +68,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     };
     visited.set(0, 0);
 
-    let mut rope: Vec<(i16, i16)> = vec![(0, 0); 2];
+    rope.fill((0, 0));
     let mut direction = Direction::Up;
     let mut steps = 0;
 
@@ -90,7 +90,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
                         let x_diff = rope[knot - 1].0 - rope[knot].0;
                         let y_diff = rope[knot - 1].1 - rope[knot].1;
 
-                        if y_diff.abs() >= 2 || x_diff.abs() >= 2 {
+                        if y_diff == 2 || y_diff == -2 || x_diff == 2 || x_diff == -2 {
                             rope[knot].0 += x_diff.signum();
                             rope[knot].1 += y_diff.signum();
                         } else {
@@ -112,9 +112,9 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     rprintln!("d09a: {}", visited.count_ones());
 }
 
-/// Measured speed: 513,470us.
+/// Measured speed: 328,653us.
 pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
-    let mut rope: Vec<(i16, i16)> = vec![(0, 0); 10];
+    let mut rope: [(i32, i32); 10] = [(0, 0); 10];
     let mut direction = Direction::Up;
     let mut steps = 0;
 
@@ -141,7 +141,7 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
                         let x_diff = rope[knot - 1].0 - rope[knot].0;
                         let y_diff = rope[knot - 1].1 - rope[knot].1;
 
-                        if y_diff.abs() >= 2 || x_diff.abs() >= 2 {
+                        if y_diff == 2 || y_diff == -2 || x_diff == 2 || x_diff == -2 {
                             rope[knot].0 += x_diff.signum();
                             rope[knot].1 += y_diff.signum();
                         } else {
@@ -170,7 +170,7 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     };
     visited.set(0, 0);
 
-    let mut rope: Vec<(i16, i16)> = vec![(0, 0); 10];
+    rope.fill((0, 0));
     let mut direction = Direction::Up;
     let mut steps = 0;
 
@@ -192,7 +192,7 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
                         let x_diff = rope[knot - 1].0 - rope[knot].0;
                         let y_diff = rope[knot - 1].1 - rope[knot].1;
 
-                        if y_diff.abs() >= 2 || x_diff.abs() >= 2 {
+                        if y_diff == 2 || y_diff == -2 || x_diff == 2 || x_diff == -2 {
                             rope[knot].0 += x_diff.signum();
                             rope[knot].1 += y_diff.signum();
                         } else {
