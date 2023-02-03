@@ -1,6 +1,4 @@
 use crate::data_structures::bitarray::BitArray2D;
-use alloc::vec;
-use alloc::vec::Vec;
 use rtt_target::rprintln;
 
 enum Direction {
