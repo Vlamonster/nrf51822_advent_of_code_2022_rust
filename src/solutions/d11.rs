@@ -2,16 +2,16 @@ use alloc::vec::Vec;
 use itertools::Itertools;
 use rtt_target::rprintln;
 
-enum Operation<T> {
+enum Operation {
     Square,
-    Mul(T),
-    Add(T),
+    Mul(usize),
+    Add(usize),
 }
 
-pub struct Monkey<T> {
-    items: Vec<T>,
-    operation: Operation<T>,
-    test: T,
+pub struct Monkey {
+    items: Vec<usize>,
+    operation: Operation,
+    test: usize,
     test_true: usize,
     test_false: usize,
     inspections: usize,
@@ -109,7 +109,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     );
 }
 
-/// Measured speed: 26,111,888us.
+/// Measured speed: 16,972,382us.
 pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     let mut monkeys = Vec::new();
     for monkey in input.split(|&byte| byte == b'\n').array_chunks::<7>() {
@@ -122,7 +122,7 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
                     item = 0;
                 }
                 b' ' => {}
-                _ => item = item * 10 + (byte - b'0') as u64,
+                _ => item = item * 10 + (byte - b'0') as usize,
             }
         }
 
@@ -130,21 +130,21 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
         let operation;
         if monkey[2][23] == b'+' {
             for &byte in monkey[2][25..].iter() {
-                num = num * 10 + (byte - b'0') as u64;
+                num = num * 10 + (byte - b'0') as usize;
             }
             operation = Operation::Add(num);
         } else if monkey[2][25] == b'o' {
             operation = Operation::Square;
         } else {
             for &byte in monkey[2][25..].iter() {
-                num = num * 10 + (byte - b'0') as u64;
+                num = num * 10 + (byte - b'0') as usize;
             }
             operation = Operation::Mul(num);
         }
 
         let mut test = 0;
         for &byte in monkey[3][21..].iter() {
-            test = test * 10 + (byte - b'0') as u64;
+            test = test * 10 + (byte - b'0') as usize;
         }
 
         let mut test_true = 0;
@@ -167,7 +167,7 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
         });
     }
 
-    let common_multiple = monkeys.iter().map(|monkey| monkey.test).product::<u64>();
+    let common_multiple = monkeys.iter().map(|monkey| monkey.test).product::<usize>();
 
     for _ in 0..10000 {
         for i in 0..monkeys.len() {
@@ -175,10 +175,12 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
                 monkeys[i].inspections += 1;
 
                 item = match monkeys[i].operation {
-                    Operation::Square => item * item,
-                    Operation::Mul(operand) => item * operand,
+                    Operation::Square => {
+                        ((item as u64 * item as u64) % common_multiple as u64) as usize
+                    }
+                    Operation::Mul(operand) => (item * operand) % common_multiple,
                     Operation::Add(operand) => item + operand,
-                } % common_multiple;
+                };
 
                 let target_monkey = if item % monkeys[i].test == 0 {
                     monkeys[i].test_true
