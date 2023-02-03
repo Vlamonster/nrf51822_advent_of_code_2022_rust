@@ -1,3 +1,4 @@
+use alloc::vec;
 use alloc::vec::Vec;
 use itertools::Itertools;
 use rtt_target::rprintln;
@@ -9,12 +10,12 @@ enum Operation {
 }
 
 pub struct Monkey {
-    items: Vec<usize>,
-    operation: Operation,
-    test: usize,
-    test_true: usize,
-    test_false: usize,
-    inspections: usize,
+    bag: Vec<usize>,
+    op: Operation,
+    div: usize,
+    yay: usize,
+    nay: usize,
+    ins: usize,
 }
 
 /// Measured speed: 34,021us.
@@ -66,33 +67,33 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
         }
 
         monkeys.push(Monkey {
-            items,
-            operation,
-            test,
-            test_true,
-            test_false,
-            inspections: 0,
+            bag: items,
+            op: operation,
+            div: test,
+            yay: test_true,
+            nay: test_false,
+            ins: 0,
         });
     }
 
     for _ in 0..20 {
         for i in 0..monkeys.len() {
-            while let Some(mut item) = monkeys[i].items.pop() {
-                monkeys[i].inspections += 1;
+            while let Some(mut item) = monkeys[i].bag.pop() {
+                monkeys[i].ins += 1;
 
-                item = match monkeys[i].operation {
+                item = match monkeys[i].op {
                     Operation::Square => item * item,
                     Operation::Mul(operand) => item * operand,
                     Operation::Add(operand) => item + operand,
                 } / 3;
 
-                let target_monkey = if item % monkeys[i].test == 0 {
-                    monkeys[i].test_true
+                let target_monkey = if item % monkeys[i].div == 0 {
+                    monkeys[i].yay
                 } else {
-                    monkeys[i].test_false
+                    monkeys[i].nay
                 };
 
-                monkeys[target_monkey].items.push(item);
+                monkeys[target_monkey].bag.push(item);
             }
         }
     }
@@ -101,7 +102,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
         "d11a: {}",
         monkeys
             .iter()
-            .map(|monkey| monkey.inspections)
+            .map(|monkey| monkey.ins)
             .sorted()
             .rev()
             .take(2)
@@ -109,7 +110,7 @@ pub fn p1(_memory: &mut [u8], input: &mut [u8]) {
     );
 }
 
-/// Measured speed: 16,972,382us.
+/// Measured speed: 16,701,845us.
 pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
     let mut monkeys = Vec::new();
     for monkey in input.split(|&byte| byte == b'\n').array_chunks::<7>() {
@@ -158,46 +159,38 @@ pub fn p2(_memory: &mut [u8], input: &mut [u8]) {
         }
 
         monkeys.push(Monkey {
-            items,
-            operation,
-            test,
-            test_true,
-            test_false,
-            inspections: 0,
+            bag: items,
+            op: operation,
+            div: test,
+            yay: test_true,
+            nay: test_false,
+            ins: 0,
         });
     }
 
-    let common_multiple = monkeys.iter().map(|monkey| monkey.test).product::<usize>();
+    let lcm = monkeys.iter().map(|monkey| monkey.div).product::<usize>();
+    let mut bags = vec![vec![]; monkeys.len()];
 
-    for _ in 0..10000 {
-        for i in 0..monkeys.len() {
-            while let Some(mut item) = monkeys[i].items.pop() {
-                monkeys[i].inspections += 1;
-
-                item = match monkeys[i].operation {
-                    Operation::Square => {
-                        ((item as u64 * item as u64) % common_multiple as u64) as usize
-                    }
-                    Operation::Mul(operand) => (item * operand) % common_multiple,
+    (0..10000).for_each(|_| {
+        monkeys.iter_mut().enumerate().for_each(|(i, m)| {
+            m.bag.append(&mut bags[i]);
+            m.ins += m.bag.len();
+            m.bag.drain(..).for_each(|mut item| {
+                item = match m.op {
+                    Operation::Square => ((item as u64 * item as u64) % lcm as u64) as usize,
+                    Operation::Mul(operand) => (item * operand) % lcm,
                     Operation::Add(operand) => item + operand,
                 };
-
-                let target_monkey = if item % monkeys[i].test == 0 {
-                    monkeys[i].test_true
-                } else {
-                    monkeys[i].test_false
-                };
-
-                monkeys[target_monkey].items.push(item);
-            }
-        }
-    }
+                bags[if item % m.div == 0 { m.yay } else { m.nay }].push(item);
+            });
+        })
+    });
 
     rprintln!(
         "d11b: {}",
         monkeys
             .iter()
-            .map(|monkey| monkey.inspections)
+            .map(|monkey| monkey.ins)
             .sorted()
             .rev()
             .take(2)
